@@ -2,6 +2,7 @@ package com.alexiscesar.workshopmongo.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.alexiscesar.workshopmongo.domain.Post;
 import com.alexiscesar.workshopmongo.domain.User;
 import com.alexiscesar.workshopmongo.dto.UserDTO;
 import com.alexiscesar.workshopmongo.services.UserService;
@@ -63,6 +65,12 @@ public class UserResource {
 		obj = service.update(obj);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<Set<Post>> findPosts(@PathVariable String id){
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPosts());
 	}
 	
 }
